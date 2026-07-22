@@ -102,6 +102,8 @@ keyPassword=$env:KEY_PASSWORD
                                 $ErrorActionPreference = 'Stop'
                                 Push-Location android
                                 try {
+                                    & './gradlew.bat' :app:publishReleaseListing --no-daemon
+                                    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
                                     & './gradlew.bat' :app:publishReleaseBundle --track=internal --release-status=completed --artifact-dir=../build/app/outputs/bundle/release --no-daemon
                                     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
                                 } finally { Pop-Location }

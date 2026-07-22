@@ -1,0 +1,1 @@
+Erste Veröffentlichung des SpeedPhone Dialers mit sicherer QR-Kopplung und direktem Anrufstart aus CRM SpeedPhone.
