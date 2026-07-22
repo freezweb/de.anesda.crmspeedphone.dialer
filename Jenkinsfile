@@ -50,12 +50,17 @@ pipeline {
                             powershell '''
                                 $ErrorActionPreference = 'Stop'
                                 Copy-Item -LiteralPath $env:KEYSTORE_FILE -Destination 'android/release.keystore' -Force
-                                @"
+                                $keyProperties = @"
 storeFile=../release.keystore
 storePassword=$env:STORE_PASSWORD
 keyAlias=$env:KEY_ALIAS
 keyPassword=$env:KEY_PASSWORD
-"@ | Set-Content -LiteralPath 'android/key.properties' -Encoding UTF8
+"@
+                                [IO.File]::WriteAllText(
+                                    (Join-Path $PWD 'android/key.properties'),
+                                    $keyProperties,
+                                    [Text.UTF8Encoding]::new($false)
+                                )
                                 & 'C:/flutter/bin/flutter.bat' pub get
                                 & 'C:/flutter/bin/dart.bat' run flutter_launcher_icons
                             '''
