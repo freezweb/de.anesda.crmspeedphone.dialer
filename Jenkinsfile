@@ -56,8 +56,8 @@ storePassword=$env:STORE_PASSWORD
 keyAlias=$env:KEY_ALIAS
 keyPassword=$env:KEY_PASSWORD
 "@ | Set-Content -LiteralPath 'android/key.properties' -Encoding UTF8
-                                & 'C:\flutter\bin\flutter.bat' pub get
-                                & 'C:\flutter\bin\dart.bat' run flutter_launcher_icons
+                                & 'C:/flutter/bin/flutter.bat' pub get
+                                & 'C:/flutter/bin/dart.bat' run flutter_launcher_icons
                             '''
                         }
                     }
@@ -66,9 +66,9 @@ keyPassword=$env:KEY_PASSWORD
                     steps {
                         powershell '''
                             $ErrorActionPreference = 'Stop'
-                            & 'C:\flutter\bin\flutter.bat' analyze
+                            & 'C:/flutter/bin/flutter.bat' analyze
                             if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-                            & 'C:\flutter\bin\flutter.bat' test
+                            & 'C:/flutter/bin/flutter.bat' test
                             if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
                         '''
                     }
@@ -77,9 +77,9 @@ keyPassword=$env:KEY_PASSWORD
                     steps {
                         powershell '''
                             $ErrorActionPreference = 'Stop'
-                            & 'C:\flutter\bin\flutter.bat' build apk --release --build-name=$env:VERSION_NAME --build-number=$env:VERSION_CODE
+                            & 'C:/flutter/bin/flutter.bat' build apk --release --build-name=$env:VERSION_NAME --build-number=$env:VERSION_CODE
                             if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-                            & 'C:\flutter\bin\flutter.bat' build appbundle --release --build-name=$env:VERSION_NAME --build-number=$env:VERSION_CODE
+                            & 'C:/flutter/bin/flutter.bat' build appbundle --release --build-name=$env:VERSION_NAME --build-number=$env:VERSION_CODE
                             if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
                         '''
                     }
