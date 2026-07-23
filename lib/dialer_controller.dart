@@ -31,6 +31,7 @@ class DialerController extends ChangeNotifier {
   String? error;
   bool busy = true;
   bool ready = false;
+  bool incomingCallEnabled = false;
   Timer? _pollTimer;
   bool _polling = false;
   String? _lastHandledCommandId;
@@ -41,6 +42,8 @@ class DialerController extends ChangeNotifier {
     if (device == null) {
       status = 'Noch nicht mit SpeedPhone gekoppelt';
     } else {
+      await _bridge.configureIncomingCalls(device!);
+      incomingCallEnabled = await _bridge.hasIncomingCallPermission();
       status = 'Verbunden – warte auf Wählauftrag';
       await start();
     }
@@ -71,6 +74,8 @@ class DialerController extends ChangeNotifier {
         throw const FormatException('Das CRM hat keine Geräte-ID geliefert.');
       }
       await _store.save(device!);
+      await _bridge.configureIncomingCalls(device!);
+      incomingCallEnabled = await _bridge.hasIncomingCallPermission();
       status = 'Verbunden – warte auf Wählauftrag';
       await start();
     } catch (exception) {
@@ -106,6 +111,34 @@ class DialerController extends ChangeNotifier {
       notifyListeners();
     }
     return granted;
+  }
+
+  Future<bool> enableIncomingCallRecognition() async {
+    final paired = device;
+    if (paired == null || !Platform.isAndroid) return false;
+    error = null;
+    busy = true;
+    status = 'Berechtigung für eingehende Rückrufe wird geprüft …';
+    notifyListeners();
+    try {
+      await _bridge.configureIncomingCalls(paired);
+      incomingCallEnabled = await _bridge.ensureIncomingCallPermission();
+      if (incomingCallEnabled) {
+        status = 'Rückruf-Erkennung aktiv – warte auf Anrufe';
+        return true;
+      }
+      error =
+          'Ohne Telefonstatus- und Anruflistenberechtigung kann die App eingehende Nummern nicht dem CRM zuordnen.';
+      status = 'Rückruf-Erkennung nicht aktiviert';
+      return false;
+    } catch (exception) {
+      error = _friendlyError(exception);
+      status = 'Rückruf-Erkennung konnte nicht aktiviert werden';
+      return false;
+    } finally {
+      busy = false;
+      notifyListeners();
+    }
   }
 
   Future<void> pollNow() async {
@@ -155,9 +188,11 @@ class DialerController extends ChangeNotifier {
       }
     }
     await _store.clear();
+    await _bridge.clearIncomingCalls();
     device = null;
     lastCommand = null;
     error = null;
+    incomingCallEnabled = false;
     status = 'Noch nicht mit SpeedPhone gekoppelt';
     notifyListeners();
   }

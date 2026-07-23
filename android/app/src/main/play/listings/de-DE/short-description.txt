@@ -1,1 +1,1 @@
-CRM-Anrufe sicher auf dem Handy starten
+CRM-Anrufe starten und Rückrufe automatisch öffnen

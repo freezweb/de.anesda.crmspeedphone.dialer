@@ -9,6 +9,10 @@ Funktionen:
 • kurzlebige Anrufaufträge
 • sicher im Betriebssystem gespeichertes Gerätetoken
 • direkter Anrufstart auf Android nach erteilter Telefonberechtigung
+• optionale Erkennung eingehender geschäftlicher Rückrufe auf Android
+• automatisches Öffnen des vorhandenen CRM-Zielkontakts im SpeedPhone-Portal
 • keine Werbung und kein Tracking
 
-Die App benötigt eine erreichbare SuiteCRM-Installation mit CRM SpeedPhone ab Version 1.4.0. Sie ist kein eigenständiges CRM und zeichnet keine Gespräche auf.
+Die Rückruf-Erkennung wird erst nach einer deutlichen Einwilligung aktiviert. Die eingehende Nummer wird ausschließlich an das gekoppelte Unternehmens-CRM übertragen und dort nur mit freigegebenen vorhandenen Zielkontakten verglichen.
+
+Die App benötigt eine erreichbare SuiteCRM-Installation mit CRM SpeedPhone ab Version 1.5.0. Sie ist kein eigenständiges CRM und zeichnet keine Gespräche auf.

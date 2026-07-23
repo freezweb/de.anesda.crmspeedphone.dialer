@@ -59,6 +59,12 @@ flutter {
     source = "../.."
 }
 
+dependencies {
+    implementation("androidx.security:security-crypto:1.1.0")
+    implementation("androidx.work:work-runtime-ktx:2.11.2")
+    testImplementation("junit:junit:4.13.2")
+}
+
 val playServiceAccount = System.getenv("PLAY_SERVICE_ACCOUNT_JSON")?.let { file(it) }
 if (playServiceAccount != null && playServiceAccount.exists()) {
     play {

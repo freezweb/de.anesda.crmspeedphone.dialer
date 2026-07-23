@@ -288,6 +288,29 @@ class ReadyScreen extends StatelessWidget {
                         onPressed: controller.ensurePhonePermission,
                         icon: const Icon(Icons.admin_panel_settings_outlined),
                         label: const Text('Telefonberechtigung prüfen')),
+                    const SizedBox(height: 18),
+                    _InfoCard(
+                      icon: controller.incomingCallEnabled
+                          ? Icons.phone_callback
+                          : Icons.phone_callback_outlined,
+                      title: controller.incomingCallEnabled
+                          ? 'Eingehende Rückrufe werden erkannt'
+                          : 'Rückruf automatisch im CRM öffnen',
+                      body: controller.incomingCallEnabled
+                          ? 'Wenn eine bekannte Nummer anruft, wird der vorhandene Zielkontakt im geöffneten SpeedPhone-Portal automatisch eingeblendet.'
+                          : 'Aktivieren Sie die Rückruf-Erkennung, damit die App eine eingehende Nummer ausschließlich im gekoppelten CRM einem vorhandenen Zielkontakt zuordnet.',
+                    ),
+                    const SizedBox(height: 10),
+                    FilledButton.tonalIcon(
+                      onPressed: controller.busy ||
+                              controller.incomingCallEnabled
+                          ? null
+                          : () => _enableIncomingCalls(context),
+                      icon: const Icon(Icons.shield_outlined),
+                      label: Text(controller.incomingCallEnabled
+                          ? 'Rückruf-Erkennung ist aktiv'
+                          : 'Rückruf-Erkennung aktivieren'),
+                    ),
                   ],
                   if (command != null) ...[
                     const SizedBox(height: 22),
@@ -338,6 +361,34 @@ class ReadyScreen extends StatelessWidget {
                       child: const Text('Aufheben'))
                 ]));
     if (confirmed == true) await controller.disconnect();
+  }
+
+  Future<void> _enableIncomingCalls(BuildContext context) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Eingehende Rückrufe erkennen'),
+        content: const Text(
+          'SpeedPhone Dialer liest beim Klingeln die eingehende Telefonnummer und überträgt sie verschlüsselt ausschließlich an das von Ihnen gekoppelte Unternehmens-CRM. '
+          'Dort wird die Nummer nur mit vorhandenen, für Sie freigegebenen Zielkontakten verglichen, damit der passende Datensatz im geöffneten SpeedPhone-Portal erscheint.\n\n'
+          'Die App liest keine Gesprächsinhalte, zeichnet keine Anrufe auf und verwendet die Nummer weder für Werbung noch für andere Empfänger. '
+          'Android verlangt hierfür die Berechtigungen „Telefon“ und „Anrufliste“. Sie können diese jederzeit in den Systemeinstellungen entziehen.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Nicht aktivieren'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Zustimmen und aktivieren'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed == true) {
+      await controller.enableIncomingCallRecognition();
+    }
   }
 }
 

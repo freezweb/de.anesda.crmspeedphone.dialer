@@ -6,7 +6,7 @@ SpeedPhone Dialer
 
 ## Kurzbeschreibung / Untertitel
 
-CRM-Anrufe sicher auf dem Handy starten
+CRM-Anrufe starten und Rückrufe automatisch öffnen
 
 ## Beschreibung
 
@@ -21,10 +21,12 @@ Funktionen:
 - kurzlebige Anrufaufträge
 - sicher im Betriebssystem gespeichertes Gerätetoken
 - direkter Anrufstart auf Android nach erteilter Telefonberechtigung
+- optionale Erkennung eingehender geschäftlicher Rückrufe auf Android
+- automatisches Öffnen des vorhandenen CRM-Zielkontakts im SpeedPhone-Portal
 - systemeigene Anrufbestätigung auf iPhone
 - keine Werbung und kein Tracking
 
-Die App benötigt eine erreichbare SuiteCRM-Installation mit CRM SpeedPhone ab Version 1.4.0. Sie ist kein eigenständiges CRM und zeichnet keine Gespräche auf.
+Die App benötigt eine erreichbare SuiteCRM-Installation mit CRM SpeedPhone ab Version 1.5.0. Sie ist kein eigenständiges CRM und zeichnet keine Gespräche auf.
 
 ## Kategorie
 

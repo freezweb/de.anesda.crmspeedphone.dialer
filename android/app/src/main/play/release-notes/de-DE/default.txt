@@ -1,1 +1,1 @@
-Erste Veröffentlichung des SpeedPhone Dialers mit sicherer QR-Kopplung und direktem Anrufstart aus CRM SpeedPhone.
+Eingehende geschäftliche Rückrufe können nach ausdrücklicher Freigabe automatisch dem vorhandenen CRM-Zielkontakt zugeordnet und im geöffneten SpeedPhone-Portal angezeigt werden.
