@@ -75,6 +75,13 @@ keyPassword=$env:KEY_PASSWORD
                             if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
                             & 'C:/flutter/bin/flutter.bat' test
                             if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+                            Push-Location android
+                            try {
+                                & './gradlew.bat' :app:testDebugUnitTest --no-daemon
+                                if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+                            } finally {
+                                Pop-Location
+                            }
                         '''
                     }
                 }
